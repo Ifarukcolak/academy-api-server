@@ -1,6 +1,11 @@
 // es5 vs es6
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: '5mb' }));
 
 let sampleList = [
     { 'id': 1, 'firstName': 'John', 'lastName': 'Doe', 'age': 20 },
@@ -68,4 +73,4 @@ app.delete('/:id', (req, res, next) => {
 
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 3000);
