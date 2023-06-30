@@ -18,6 +18,11 @@ app.get('/', (req, res, next) => {
     res.json(sampleList);
 });
 
+app.get('/:id', (req, res, next) => {
+    let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
+    res.json(result);
+});
+
 app.post('/', (req, res, next) => {
     let element = req.body;
 
@@ -63,4 +68,4 @@ app.delete('/:id', (req, res, next) => {
 
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 3000);
