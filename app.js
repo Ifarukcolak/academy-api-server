@@ -43,13 +43,15 @@ app.post('/', (req, res, next) => {
 });
 
 app.put('/:id', (req, res, next) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     let result = sampleList.find(x => x.id === id);
 
     if (result) {
         sampleList.forEach(x => {
             if (x.id === id) {
-                x = req.body;
+                x.firstName = req.body.firstName;
+                x.lastName = req.body.lastName;
+                x.age = req.body.age;
             }
         });
 
