@@ -62,7 +62,7 @@ app.put('/:id', (req, res, next) => {
 })
 
 app.delete('/:id', (req, res, next) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const index = sampleList.findIndex(x => x.id === id);
 
     if (index > -1) {
