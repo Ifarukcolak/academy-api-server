@@ -28,6 +28,10 @@ app.get('/:id', (req, res, next) => {
     res.json(result);
 });
 
+// app.get('/byFilter', (req, res, next) => {
+//     let age = req.body.age;
+// })
+
 app.post('/', (req, res, next) => {
     let element = req.body;
 
@@ -40,6 +44,10 @@ app.post('/', (req, res, next) => {
     } else {
         res.json({ 'message': 'Eleman kısıtlara uygun değil.' });
     }
+});
+
+app.post('/multiple', (req, res, next) => {
+    let objectArray = req.body.objectArray;
 });
 
 app.put('/:id', (req, res, next) => {
