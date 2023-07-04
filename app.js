@@ -18,6 +18,7 @@ let sampleList = [
     { 'id': 8, 'firstName': 'Faruk', 'lastName': 'Çolak', 'age': 20 },
     { 'id': 9, 'firstName': 'John', 'lastName': 'Doe', 'age': 20 },
 ];
+app;
 
 app.get('/', (req, res, next) => {
     res.json(sampleList);
