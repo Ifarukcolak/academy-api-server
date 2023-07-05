@@ -18,7 +18,7 @@ let sampleList = [
     { 'id': 8, 'firstName': 'Faruk', 'lastName': 'Çolak', 'age': 20 },
     { 'id': 9, 'firstName': 'John', 'lastName': 'Doe', 'age': 20 },
 ];
-app;
+
 
 app.get('/', (req, res, next) => {
     res.json(sampleList);
@@ -48,8 +48,38 @@ app.post('/', (req, res, next) => {
 });
 
 app.post('/multiple', (req, res, next) => {
-    let objectArray = req.body.objectArray;
-});
+    
+        const elements = req.body;
+   
+     if (Array.isArray(elements) && elements.length > 0) {
+       const addedElements = [];
+   
+       elements.forEach((element, index) => {
+         if (element.firstName && element.lastName && element.age) {
+           const length = sampleList.length;
+   
+           const newElement = {
+             id: length + index + 1,
+             firstName: element.firstName,
+             lastName: element.lastName, 
+             age: element.age
+           };
+   
+           sampleList.push(newElement);
+           addedElements.push(newElement);
+         }
+       });
+   
+       if (addedElements.length > 0) {
+         res.json({ 'message': 'Elemanlar eklendi.', 'addedElements': addedElements });
+       } else {
+         res.json({ 'message': 'Hiçbir eleman kısıtlara uygun değil.' });
+       }
+     } else {
+       res.json({ 'message': 'Geçersiz veri formatı veya boş liste.' });
+     }
+   });
+
 
 app.put('/:id', (req, res, next) => {
     const id = Number(req.params.id);
