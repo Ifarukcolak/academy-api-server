@@ -28,10 +28,11 @@ app.get('/:id', (req, res, next) => {
     let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
     res.json(result);
 });
+app.get('/byFilter', (req, res, next) => {
+    let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
+    res.json(result);
+});
 
-// app.get('/byFilter', (req, res, next) => {
-//     let age = req.body.age;
-// })
 
 app.post('/', (req, res, next) => {
     let element = req.body;
