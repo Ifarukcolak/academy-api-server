@@ -26,8 +26,8 @@ app.get('/', (req, res, next) => {
 app.get('/byFilter', (req, res, next) => {
    const ageLimit = Number(req.headers.age);
    const filteredList = sampleList.filter(x=> x.age < ageLimit);
-let age = req.headers.age
-    res.json({age}) 
+
+    res.json({filteredList}) 
 });
 app.get('/:id', (req, res, next) => {
     let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
