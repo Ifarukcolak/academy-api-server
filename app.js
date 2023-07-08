@@ -23,15 +23,17 @@ let sampleList = [
 app.get('/', (req, res, next) => {
     res.json(sampleList);
 });
-
+app.get('/byFilter', (req, res, next) => {
+   const ageLimit = Number(req.headers.age);
+   const filteredList = sampleList.filter(x=> x.age < ageLimit);
+let age = req.headers.age
+    res.json({age}) 
+});
 app.get('/:id', (req, res, next) => {
     let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
     res.json(result);
 });
-app.get('/byFilter', (req, res, next) => {
-    let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
-    res.json(result);
-});
+
 
 
 app.post('/', (req, res, next) => {
