@@ -7,7 +7,7 @@ const User = sequelize.define('User', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false, //id null olamaz
     },
     firstName: {
       type: Sequelize.STRING,
