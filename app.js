@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors')
 const app = express();
+const user=require("/user")
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));

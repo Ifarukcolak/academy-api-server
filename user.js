@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./database');
+const sequelize = require('./connection');
 
 const User = sequelize.define('User', {  
      //define() yöntemi, bir model nesnesi oluşturur.
