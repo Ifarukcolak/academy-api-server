@@ -27,8 +27,16 @@ app.get('/', (req, res, next) => {
 
 app.get('/byFilter', (req, res, next) => {
     const ageLimit = Number(req.headers.age);
-    const filteredList = sampleList.filter(x => x.age < ageLimit);
-    res.json({ filteredList })
+    const firstName = req.headers.firstname; 
+    const lastName = req.headers.lastname; 
+    
+    let filteredList = sampleList.filter(x => x.age < ageLimit);
+    
+    if (firstName) { filteredList = filteredList.filter(x => x.firstName === firstName); }
+    if (lastName) { filteredList = filteredList.filter(x => x.lastName === lastName); } 
+    
+    res.json({ filteredList });
+ 
 });
 
 app.get('/:id', (req, res, next) => {
@@ -116,4 +124,4 @@ app.delete('/:id', (req, res, next) => {
 
 });
 
-app.listen(process.env.PORT || 3000,()=>{console.log("Port dinleniyorr")});
+app.listen(process.env.PORT || 3000, () => { console.log("Port dinleniyorr") });
