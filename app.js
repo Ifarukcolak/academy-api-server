@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors')
 const app = express();
-const user=require("/user")
+const user=require("./user");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,8 +22,10 @@ let sampleList = [
 ];
 
 
-app.get('/', (req, res, next) => {
-    res.json(sampleList);
+
+app.get('/', async(req, res, next) => {
+    await user.sync();
+    res.json(await user.findAll());
 });
 
 app.get('/byFilter', (req, res, next) => {
@@ -53,7 +55,14 @@ app.post('/', (req, res, next) => {
 
         element.id = length + 1;
         sampleList.push(element);
-        res.json({ 'message': 'Eleman eklendi.', 'id': element.id });
+        user.create(element).then(data=>{
+            res.json(data);
+           
+        }).catch(error=>{
+            res.json(error);
+            
+        })
+       // res.json({ 'message': 'Eleman eklendi.', 'id': element.id });
     } else {
         res.json({ 'message': 'Eleman kısıtlara uygun değil.' });
     }
@@ -76,7 +85,7 @@ app.post('/multiple', (req, res, next) => {
                     age: element.age
                 };
 
-                sampleList.push(newElement);
+                sampleList.push(newElement);//düzenledikçe sil 
                 addedElements.push(newElement);
             }
         });
