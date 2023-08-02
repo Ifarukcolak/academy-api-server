@@ -41,10 +41,17 @@ app.get('/byFilter', (req, res, next) => {
     res.json({ filteredList });
  
 });
-
+//get by id
 app.get('/:id', (req, res, next) => {
     let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
     res.json(result);
+    // user.get(element).then(data=>{
+    //     res.json(data);
+       
+    // }).catch(error=>{
+    //     res.json(error);
+        
+    // })
 });
 
 app.post('/', (req, res, next) => {
@@ -104,6 +111,13 @@ app.post('/multiple', (req, res, next) => {
 app.put('/:id', (req, res, next) => {
     const id = Number(req.params.id);
     let result = sampleList.find(x => x.id === id);
+    user.put(element).then(data=>{
+        res.json(data);
+       
+    }).catch(error=>{
+        res.json(error);
+        
+    })
 
     if (result) {
         sampleList.forEach(x => {
@@ -123,6 +137,13 @@ app.put('/:id', (req, res, next) => {
 app.delete('/:id', (req, res, next) => {
     const id = Number(req.params.id);
     const index = sampleList.findIndex(x => x.id === id);
+    user.delete(element).then(data=>{
+        res.json(data);
+       
+    }).catch(error=>{
+        res.json(error);
+        
+    })
 
     if (index > -1) {
         sampleList.splice(index, 1);
