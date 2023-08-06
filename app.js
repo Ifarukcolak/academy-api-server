@@ -45,13 +45,13 @@ app.get('/byFilter', (req, res, next) => {
 app.get('/:id', (req, res, next) => {
     let result = sampleList.find(x => Number(x.id) === Number(req.params.id));
     res.json(result);
-    // user.get(element).then(data=>{
-    //     res.json(data);
+     user.get(element).then(data=>{
+         res.json(data);
        
-    // }).catch(error=>{
-    //     res.json(error);
+     }).catch(error=>{
+        res.json(error);
         
-    // })
+     })
 });
 
 app.post('/', (req, res, next) => {
@@ -62,14 +62,14 @@ app.post('/', (req, res, next) => {
 
         element.id = length + 1;
         sampleList.push(element);
-        user.create(element).then(data=>{
-            res.json(data);
+         user.create(element).then(data=>{ //user.create veritabanına elemanı kaydeder
+             res.json(data);
            
-        }).catch(error=>{
-            res.json(error);
+         }).catch(error=>{
+             res.json(error);
             
-        })
-       // res.json({ 'message': 'Eleman eklendi.', 'id': element.id });
+         })
+        res.json({ 'message': 'Eleman eklendi.', 'id': element.id });
     } else {
         res.json({ 'message': 'Eleman kısıtlara uygun değil.' });
     }
@@ -91,9 +91,15 @@ app.post('/multiple', (req, res, next) => {
                     lastName: element.lastName,
                     age: element.age
                 };
-
-                sampleList.push(newElement);//düzenledikçe sil 
-                addedElements.push(newElement);
+                sampleList.push(element);
+                user.create(element).then(data=>{ //user.create veritabanına elemanı kaydeder
+                    res.json(data);
+                  
+                }).catch(error=>{
+                    res.json(error);
+                   
+                })
+               
             }
         });
 
@@ -111,13 +117,7 @@ app.post('/multiple', (req, res, next) => {
 app.put('/:id', (req, res, next) => {
     const id = Number(req.params.id);
     let result = sampleList.find(x => x.id === id);
-    user.put(element).then(data=>{
-        res.json(data);
-       
-    }).catch(error=>{
-        res.json(error);
-        
-    })
+   
 
     if (result) {
         sampleList.forEach(x => {
@@ -125,6 +125,13 @@ app.put('/:id', (req, res, next) => {
                 x.firstName = req.body.firstName;
                 x.lastName = req.body.lastName;
                 x.age = req.body.age;
+                user.put(element).then(data=>{
+                res.json(data);
+       
+                 }).catch(error=>{
+                    res.json(error);
+        
+     })
             }
         });
 
