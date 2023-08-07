@@ -58,30 +58,32 @@ app.post('/', (req, res, next) => {
     let element = req.body;
 
     if (element.firstName && element.lastName && element.age) {
-        const length = sampleList.length;
+        const length = sampleList.length; //Dizinin uzunluğunu alıyor
 
-        element.id = length + 1;
+        element.id = length + 1; // Diziye yeni eleman eklendiği zaman eleman sayısını bir artırıyor
         sampleList.push(element);
          user.create(element).then(data=>{ //user.create veritabanına elemanı kaydeder
-             res.json(data);
+             
+             res.json({ 'message': 'Eleman eklendi.', 'id': data.id }); //Eleman eklenirse verilecek mesaj
+             
            
          }).catch(error=>{
              res.json(error);
             
          })
-        res.json({ 'message': 'Eleman eklendi.', 'id': element.id });
+      
     } else {
-        res.json({ 'message': 'Eleman kısıtlara uygun değil.' });
+        res.json({ 'message': 'Eleman kısıtlara uygun değil.' });//Eleman eklenmezse verilecek mesaj
     }
 });
 
-app.post('/multiple', (req, res, next) => {
+app.post('/multiple', (req, res, next) => { //Birden fazla post işlemi yapmak için kullanılan method
     const elements = req.body;
 
-    if (Array.isArray(elements) && elements.length > 0) {
+    if (Array.isArray(elements) && elements.length > 0) { 
         const addedElements = [];
 
-        elements.forEach((element, index) => {
+        elements.forEach((element, index) => { //promise.all burdan itibaren düzenle // async işlemler bak //winston nedir kodda nerde kullanırız bak uygulamasını dene
             if (element.firstName && element.lastName && element.age) {
                 const length = sampleList.length;
 
@@ -92,7 +94,7 @@ app.post('/multiple', (req, res, next) => {
                     age: element.age
                 };
                 sampleList.push(element);
-                user.create(element).then(data=>{ //user.create veritabanına elemanı kaydeder
+                user.create(data).then(data=>{ //user.create veritabanına elemanı kaydeder
                     res.json(data);
                   
                 }).catch(error=>{
@@ -114,28 +116,18 @@ app.post('/multiple', (req, res, next) => {
 });
 
 
-app.put('/:id', (req, res, next) => {
+app.put('/:id', async (req, res, next) => {
     const id = Number(req.params.id);
-    let result = sampleList.find(x => x.id === id);
+    let result = await user.findOne({where :{id:id}});
    
 
     if (result) {
-        sampleList.forEach(x => {
-            if (x.id === id) {
-                x.firstName = req.body.firstName;
-                x.lastName = req.body.lastName;
-                x.age = req.body.age;
-                user.put(element).then(data=>{
-                res.json(data);
-       
-                 }).catch(error=>{
-                    res.json(error);
-        
-     })
-            }
-        });
-
-        res.json({ 'message': 'Eleman güncellendi', 'id': id });
+      
+           result.update(req.body).then(data=>{
+            res.json({ 'message': 'Eleman güncellendi', 'id': id });
+            
+           }).catch(error=>{res.json({error})})
+      
     } else {
         res.json({ 'message': 'Eleman bulunamadı!' });
     }
@@ -143,8 +135,7 @@ app.put('/:id', (req, res, next) => {
 
 app.delete('/:id', (req, res, next) => {
     const id = Number(req.params.id);
-    const index = sampleList.findIndex(x => x.id === id);
-    user.delete(element).then(data=>{
+    user.destroy({where :{id:id}}).then(data=>{
         res.json(data);
        
     }).catch(error=>{
@@ -152,12 +143,7 @@ app.delete('/:id', (req, res, next) => {
         
     })
 
-    if (index > -1) {
-        sampleList.splice(index, 1);
-        res.json({ 'message': 'Eleman silindi!', id });
-    } else {
-        res.json({ 'message': 'Eleman bulunamadı!' });
-    }
+
 
 
 });

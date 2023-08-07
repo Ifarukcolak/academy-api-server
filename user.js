@@ -20,7 +20,7 @@ const User = sequelize.define('User', {
     age: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
   });
   
